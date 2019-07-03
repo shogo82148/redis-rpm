@@ -13,6 +13,8 @@ Source1:          %{name}.logrotate
 Source2:          %{name}.init
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:    tcl >= 8.5
+
 ExcludeArch:      ppc64
 
 Requires:         logrotate
