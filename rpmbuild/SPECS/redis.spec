@@ -1,19 +1,17 @@
 # redis spec file based on https://gist.github.com/tkuchiki/7674158
 
 Name:             redis
-Version:          __VERSION__
+Version:          5.0.5
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
 License:          BSD
-URL:              http://redis.io
-Source0:          http://redis.googlecode.com/files/%{name}-%{version}.tar.gz
+URL:              https://redis.io/
+Source0:          http://download.redis.io/releases/%{name}-%{version}.tar.gz
 Source1:          %{name}.logrotate
 Source2:          %{name}.init
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires:    tcl >= 8.5
 
 ExcludeArch:      ppc64
 
@@ -123,7 +121,7 @@ fi
 - Update to redis 2.0.2
 - Disable checks section for el5
 
-* Fri Sep 11 2010 Silas Sewell <silas@sewell.ch> - 2.0.1-1
+* Sat Sep 11 2010 Silas Sewell <silas@sewell.ch> - 2.0.1-1
 - Update to redis 2.0.1
 
 * Sat Sep 04 2010 Silas Sewell <silas@sewell.ch> - 2.0.0-1
