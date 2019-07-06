@@ -35,7 +35,8 @@ Source6:          %{name}-shutdown
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:    tcl >= 8.5
-
+BuildRequires:    gcc
+Requires:         /bin/awk
 ExcludeArch:      ppc64
 
 Requires:         logrotate
