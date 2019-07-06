@@ -1,0 +1,28 @@
+{
+    "package": {
+        "name": "@PKG_NAME@",
+        "repo": "redis-rpm",
+        "subject": "shogo82148",
+        "desc": "@PKG_NAME@ RPM package",
+        "website_url": "https://github.com/shogo82148/redis-rpm",
+        "issue_tracker_url": "https://github.com/shogo82148/redis-rpm/issues",
+        "vcs_url": "https://github.com/shogo82148/redis-rpm.git",
+        "licenses": ["MIT"]
+    },
+
+    "version": {
+        "name": "@PKG_VERSION@",
+        "desc": "Automated release from master",
+        "release": "@DATE@"
+    },
+
+    "files": [
+        {
+            "includePattern": "amazonlinux2.build/RPMS/(.*)/(@PKG_NAME@-@PKG_VERSION@.*.rpm)",
+            "uploadPattern": "amazonlinux2/2/$1/$2",
+            "matrixParams": { "override": 1 }
+        }
+    ],
+
+    "publish": true
+}
