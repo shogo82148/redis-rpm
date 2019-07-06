@@ -14,7 +14,13 @@ Requires(postun): initscripts
 Requires(preun):  chkconfig
 Requires(preun):  initscripts
 %endif
-  
+
+%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
+%global with_redistrib 1
+%else
+%global with_redistrib 0
+%endif
+
 # end of distribution specific definitions
 
 Name:             redis
@@ -34,6 +40,17 @@ Source5:          %{name}-limit-systemd
 Source6:          %{name}-shutdown
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+# To refresh patches:
+# tar xf redis-xxx.tar.gz && cd redis-xxx && git init && git add . && git commit -m "%%{version} baseline"
+# git am %%{patches}
+# Then refresh your patches
+# git format-patch HEAD~<number of expected patches>
+# Update configuration for Fedora
+# https://github.com/antirez/redis/pull/3491 - man pages
+Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch
+# https://github.com/antirez/redis/pull/3494 - symlink
+Patch0002:         0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.patch
+
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
 Requires:         /bin/awk
@@ -52,8 +69,43 @@ atomic operations to push/pop elements, add/remove elements, perform server side
 union, intersection, difference between sets, and so forth. Redis supports
 different kind of sorting abilities.
 
+%package           devel
+Summary:           Development header for Redis module development
+# Header-Only Library (https://fedoraproject.org/wiki/Packaging:Guidelines)
+Provides:          %{name}-static = %{version}-%{release}
+
+%description       devel
+Header file required for building loadable Redis modules. Detailed
+API documentation is available in the redis-doc package.
+
+%package           doc
+Summary:           Documentation for Redis including man pages
+License:           CC-BY-SA
+BuildArch:         noarch
+
+# http://fedoraproject.org/wiki/Packaging:Conflicts "Splitting Packages"
+Conflicts:         redis < 4.0
+
+%description       doc
+Manual pages and detailed documentation for many aspects of Redis use,
+administration and development.
+
+%if 0%{?with_redistrib}
+%package           trib
+Summary:           Cluster management script for Redis
+BuildArch:         noarch
+Requires:          ruby
+Requires:          rubygem-redis
+
+%description       trib
+Redis cluster management utility providing cluster creation, node addition
+and removal, status checks, resharding, rebalancing, and other operations.
+%endif
+
 %prep
 %setup -q
+%patch0001 -p1
+%patch0002 -p1
 
 %build
 make %{?_smp_mflags} \
@@ -90,6 +142,14 @@ install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 # Install redis-shutdown
 install -p -D -m 755 %{SOURCE6} %{buildroot}%{_libexecdir}/%{name}-shutdown
 
+# Install redis module header
+install -p -D -m 644 src/%{name}module.h %{buildroot}%{_includedir}/%{name}module.h
+
+%if 0%{?with_redistrib}
+# Install redis-trib
+install -p -D -m 755 src/%{name}-trib.rb %{buildroot}%{_bindir}/%{name}-trib
+%endif
+
 install -p -D -m 644 %{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 install -p -D -m 644 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}/sentinel.conf
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
@@ -102,6 +162,24 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-*
 # Ensure redis-server location doesn't change
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/%{name}-server %{buildroot}%{_sbindir}/%{name}-server
+
+# Install man pages
+man=$(dirname %{buildroot}%{_mandir})
+for page in man/man?/*; do
+    install -Dpm644 $page $man/$page
+done
+ln -s redis-server.1 %{buildroot}%{_mandir}/man1/redis-sentinel.1
+ln -s redis.conf.5   %{buildroot}%{_mandir}/man5/redis-sentinel.conf.5
+
+# Install documentation and html pages
+doc=$(echo %{buildroot}/%{_docdir}/%{name})
+for page in 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO; do
+    install -Dpm644 $page $doc/$page
+done
+for page in $(find doc -name \*.md | sed -e 's|.md$||g'); do
+    base=$(echo $page | sed -e 's|doc/||g')
+    install -Dpm644 $page.md $doc/$base.md
+done
 
 %clean
 rm -fr %{buildroot}
@@ -151,6 +229,8 @@ fi
 %dir %attr(0755, redis, root) %{_localstatedir}/run/%{name}
 %{_bindir}/%{name}-*
 %{_sbindir}/%{name}-*
+%{_mandir}/man1/%{name}*
+%{_mandir}/man5/%{name}*
 %if %{use_systemd}
 %{_unitdir}/%{name}.service
 %config(noreplace) %{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
@@ -159,6 +239,21 @@ fi
 %config(noreplace) %{_sysconfdir}/security/limits.d/95-%{name}.conf
 %endif
 %{_libexecdir}/%{name}-shutdown
+%exclude %{_includedir}
+
+%files devel
+%license COPYING
+%{_includedir}/%{name}module.h
+
+%files doc
+%docdir %{_docdir}/%{name}
+%{_docdir}/%{name}
+
+%if 0%{?with_redistrib}
+%files trib
+%license COPYING
+%{_bindir}/%{name}-trib
+%endif
 
 %changelog
 * Sat Mar 31 2012 Silas Sewell <silas@sewell.org> - 2.4.10-1
