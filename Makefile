@@ -7,7 +7,7 @@ amazonlinux2: IMAGE_NAME := $(IMAGE_NAME)-amazonlinux2
 
 all: amazonlinux2
 amazonlinux2: amazonlinux2.build
-
+centos6: centos6.build
 
 rpmbuild/SOURCES/$(SOURCE_ARCHIVE):
 	curl -SL http://download.redis.io/releases/$(SOURCE_ARCHIVE) -o rpmbuild/SOURCES/$(SOURCE_ARCHIVE)
@@ -37,3 +37,4 @@ bintray:
 clean:
 	rm -rf *.build.bak *.build bintray tmp Dockerfile
 	docker images | grep -q $(IMAGE_NAME)-amazonlinux2 && docker rmi $(IMAGE_NAME)-amazonlinux2 || true
+	docker images | grep -q $(IMAGE_NAME)-centos6 && docker rmi $(IMAGE_NAME)-centos6 || true
