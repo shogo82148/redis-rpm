@@ -281,10 +281,6 @@ fi
 %exclude %{_includedir}
 %exclude %{macrosdir}
 %exclude %{_docdir}/%{name}/*
-%{_bindir}/%{name}-*
-%{_libexecdir}/%{name}-*
-%{_mandir}/man1/%{name}*
-%{_mandir}/man5/%{name}*
 
 %if 0%{?with_redistrib}
 %exclude %{_bindir}/%{name}-trib
