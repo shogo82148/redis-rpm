@@ -28,7 +28,11 @@ rpmbuild/SOURCES/$(SOURCE_ARCHIVE):
 
 bintray:
 	./scripts/build_bintray_json.bash \
-		redis
+		redis \
+		redis-debuginfo \
+		redis-devel \
+		redis-doc \
+		redis-trib
 
 clean:
 	rm -rf *.build.bak *.build bintray tmp Dockerfile
