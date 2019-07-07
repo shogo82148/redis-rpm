@@ -291,7 +291,7 @@ fi
 %endif
 
 %files devel
-%license COPYING
+%license /COPYING
 %{_includedir}/%{name}module.h
 %{macrosdir}/*
 
@@ -301,7 +301,7 @@ fi
 
 %if 0%{?with_redistrib}
 %files trib
-%license COPYING
+%license /COPYING
 %{_bindir}/%{name}-trib
 %endif
 
