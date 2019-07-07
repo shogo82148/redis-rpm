@@ -306,6 +306,10 @@ fi
 %endif
 
 %changelog
+
+* Sun Jul 07 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-1
+- Update to redis 5.0.5
+
 * Sat Mar 31 2012 Silas Sewell <silas@sewell.org> - 2.4.10-1
 - Update to redis 2.4.10
 
