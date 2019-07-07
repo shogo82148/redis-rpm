@@ -21,6 +21,9 @@ Requires(preun):  initscripts
 %global with_redistrib 0
 %endif
 
+# %%{rpmmacrodir} not usable on EL-6
+%global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
+
 # end of distribution specific definitions
 
 Name:             redis
@@ -40,6 +43,7 @@ Source5:          %{name}-limit-systemd
 Source6:          %{name}-shutdown
 Source7:          %{name}-sentinel.init
 Source8:          %{name}-sentinel.service
+Source9:          macros.%{name}
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # To refresh patches:
@@ -61,7 +65,14 @@ ExcludeArch:      ppc64
 Requires:         logrotate
 Requires(pre):    shadow-utils
 
+%global redis_modules_abi 1
+%global redis_modules_dir %{_libdir}/%{name}/modules
+Provides:          redis(modules_abi)%{?_isa} = %{redis_modules_abi}
+
 %define configdir %{_sysconfdir}/%{name}
+
+# http://fedoraproject.org/wiki/Packaging:Conflicts "Splitting Packages"
+Conflicts:         redis < 4.0
 
 %description
 Redis is an advanced key-value store. It is similar to memcached but the data
@@ -85,9 +96,6 @@ Summary:           Documentation for Redis including man pages
 License:           CC-BY-SA
 BuildArch:         noarch
 
-# http://fedoraproject.org/wiki/Packaging:Conflicts "Splitting Packages"
-Conflicts:         redis < 4.0
-
 %description       doc
 Manual pages and detailed documentation for many aspects of Redis use,
 administration and development.
@@ -108,6 +116,14 @@ and removal, status checks, resharding, rebalancing, and other operations.
 %setup -q
 %patch0001 -p1
 %patch0002 -p1
+
+# Module API version safety check
+api=`sed -n -e 's/#define REDISMODULE_APIVER_[0-9][0-9]* //p' src/redismodule.h`
+if test "$api" != "%{redis_modules_abi}"; then
+   : Error: Upstream API version is now ${api}, expecting %%{redis_modules_abi}.
+   : Update the redis_modules_abi macro, the rpmmacros file, and rebuild.
+   exit 1
+fi
 
 %build
 make %{?_smp_mflags} \
@@ -161,6 +177,7 @@ install -p -D -m 644 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}/sentinel.c
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
 install -d -m 755 %{buildroot}%{_localstatedir}/log/%{name}
 install -d -m 755 %{buildroot}%{_localstatedir}/run/%{name}
+install -d %{buildroot}%{redis_modules_dir}
 
 # Fix non-standard-executable-perm error
 chmod 755 %{buildroot}%{_bindir}/%{name}-*
@@ -168,6 +185,10 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-*
 # Ensure redis-server location doesn't change
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/%{name}-server %{buildroot}%{_sbindir}/%{name}-server
+
+# Install rpm macros for redis modules
+mkdir -p %{buildroot}%{macrosdir}
+install -pDm644 %{SOURCE9} %{buildroot}%{macrosdir}/macros.%{name}
 
 # Install man pages
 man=$(dirname %{buildroot}%{_mandir})
@@ -241,6 +262,7 @@ fi
 %dir %attr(0755, redis, root) %{_localstatedir}/lib/%{name}
 %dir %attr(0755, redis, root) %{_localstatedir}/log/%{name}
 %dir %attr(0755, redis, root) %{_localstatedir}/run/%{name}
+%dir %attr(0750, redis, redis) %{redis_modules_dir}
 %{_bindir}/%{name}-*
 %{_sbindir}/%{name}-*
 %{_mandir}/man1/%{name}*
@@ -254,10 +276,21 @@ fi
 %endif
 %{_libexecdir}/%{name}-shutdown
 %exclude %{_includedir}
+%exclude %{macrosdir}
+%exclude %{_docdir}/%{name}/*
+%{_bindir}/%{name}-*
+%{_libexecdir}/%{name}-*
+%{_mandir}/man1/%{name}*
+%{_mandir}/man5/%{name}*
+
+%if 0%{?with_redistrib}
+%exclude %{_bindir}/%{name}-trib
+%endif
 
 %files devel
 %license COPYING
 %{_includedir}/%{name}module.h
+%{macrosdir}/*
 
 %files doc
 %docdir %{_docdir}/%{name}
