@@ -38,6 +38,8 @@ Source3:          %{name}-limit-init
 Source4:          %{name}.service
 Source5:          %{name}-limit-systemd
 Source6:          %{name}-shutdown
+Source7:          %{name}-sentinel.init
+Source8:          %{name}-sentinel.service
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # To refresh patches:
@@ -125,6 +127,7 @@ mv tests/test_helper.tcl tests/test_helper.tcl.ORIG
 egrep -v 'integration/(aof|logging)|unit/memefficiency' tests/test_helper.tcl.ORIG > tests/test_helper.tcl
 
 make test
+make test-sentinel
 
 %install
 rm -fr %{buildroot}
@@ -134,9 +137,12 @@ install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %if %{use_systemd}
   install -p -D -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
   install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
+  install -p -D -m 644 %{SOURCE8} %{buildroot}%{_unitdir}/%{name}-sentinel.service
+  install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
 %else
   install -p -D -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/%{name}
   install -p -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/security/limits.d/95-%{name}.conf
+  install -p -D -m 755 %{SOURCE7} %{buildroot}%{_initrddir}/%{name}-sentinel
 %endif
 
 # Install redis-shutdown
@@ -187,9 +193,12 @@ rm -fr %{buildroot}
 %post
 %if %{use_systemd}
   /usr/bin/systemctl preset redis.service >/dev/null 2>&1 ||:
+  /usr/bin/systemctl preset redis-sentinel.service >/dev/null 2>&1 ||:
 %else
   touch /var/lock/subsys/redis
   /sbin/chkconfig --add redis
+  touch /var/lock/subsys/redis-sentinel
+  /sbin/chkconfig --add redis-sentinel
 %endif
 
 %pre
@@ -203,10 +212,14 @@ exit 0
 if [ $1 = 0 ]; then
 %if %{use_systemd}
   /usr/bin/systemctl --no-reload disable redis.service >/dev/null 2>&1 ||:
+  /usr/bin/systemctl --no-reload disable redis-sentinel.service >/dev/null 2>&1 ||:
   /usr/bin/systemctl stop redis.service >/dev/null 2>&1 ||:
+  /usr/bin/systemctl stop redis-sentinel.service >/dev/null 2>&1 ||:
 %else
   /sbin/service redis stop &> /dev/null
+  /sbin/service redis-sentinel stop &> /dev/null
   /sbin/chkconfig --del redis &> /dev/null
+  /sbin/chkconfig --del redis-sentinel &> /dev/null
 %endif
 fi
 
@@ -216,6 +229,7 @@ fi
 %endif
 if [ $1 -ge 1 ]; then
     /sbin/service %{name} condrestart >/dev/null 2>&1 || exit 0
+    /sbin/service %{name}-sentinel condrestart >/dev/null 2>&1 || exit 0
 fi
 
 %files
