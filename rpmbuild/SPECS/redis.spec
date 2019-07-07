@@ -269,9 +269,12 @@ fi
 %{_mandir}/man5/%{name}*
 %if %{use_systemd}
 %{_unitdir}/%{name}.service
+%{_unitdir}/%{name}-sentinel.service
 %config(noreplace) %{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
+%config(noreplace) %{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
 %else
 %{_initrddir}/%{name}
+%{_initrddir}/%{name}-sentinel
 %config(noreplace) %{_sysconfdir}/security/limits.d/95-%{name}.conf
 %endif
 %{_libexecdir}/%{name}-shutdown
