@@ -281,17 +281,13 @@ fi
 %exclude %{_includedir}
 %exclude %{macrosdir}
 %exclude %{_docdir}/%{name}/*
-%{_bindir}/%{name}-*
-%{_libexecdir}/%{name}-*
-%{_mandir}/man1/%{name}*
-%{_mandir}/man5/%{name}*
 
 %if 0%{?with_redistrib}
 %exclude %{_bindir}/%{name}-trib
 %endif
 
 %files devel
-%license COPYING
+%license /COPYING
 %{_includedir}/%{name}module.h
 %{macrosdir}/*
 
@@ -301,7 +297,7 @@ fi
 
 %if 0%{?with_redistrib}
 %files trib
-%license COPYING
+%license /COPYING
 %{_bindir}/%{name}-trib
 %endif
 
