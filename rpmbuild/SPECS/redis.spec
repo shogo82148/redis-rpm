@@ -21,6 +21,12 @@ Requires(preun):  initscripts
 %global with_redistrib 0
 %endif
 
+%if %{?_docdir:1}%{!?_docdir:0}
+%global docdir %{_docdir}
+%else
+%global docdir %{_datadir}/doc
+%endif
+
 # %%{rpmmacrodir} not usable on EL-6
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
@@ -199,7 +205,7 @@ ln -s redis-server.1 %{buildroot}%{_mandir}/man1/redis-sentinel.1
 ln -s redis.conf.5   %{buildroot}%{_mandir}/man5/redis-sentinel.conf.5
 
 # Install documentation and html pages
-doc=$(echo %{buildroot}/%{_docdir}/%{name})
+doc=$(echo %{buildroot}/%{docdir}/%{name})
 for page in 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO; do
     install -Dpm644 $page $doc/$page
 done
@@ -280,7 +286,7 @@ fi
 %{_libexecdir}/%{name}-shutdown
 %exclude %{_includedir}
 %exclude %{macrosdir}
-%exclude %{_docdir}/%{name}/*
+%exclude %{docdir}/%{name}/*
 
 %if 0%{?with_redistrib}
 %exclude %{_bindir}/%{name}-trib
@@ -292,8 +298,8 @@ fi
 %{macrosdir}/*
 
 %files doc
-%docdir %{_docdir}/%{name}
-%{_docdir}/%{name}
+%docdir %{docdir}/%{name}
+%{docdir}/%{name}
 
 %if 0%{?with_redistrib}
 %files trib
