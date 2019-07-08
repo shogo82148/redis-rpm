@@ -11,7 +11,7 @@ env:
   - TARGET_DISTRIBUTION=amazonlinux2
 
 script:
-  - make "$TARGET_DISTRIBUTION"
+  - travis_wait make "$TARGET_DISTRIBUTION"
 
 before_deploy:
   - make bintray
