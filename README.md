@@ -3,21 +3,34 @@
 
 # Redis Unofficial RPM package builder
 
-This provides [Redis](https://redis.io/) RPM spec file and required files e.g. SysVinit, systemd service etc. to build RPM for Amazon Linux 2.
+This provides [Redis](https://redis.io/) RPM spec file and required files e.g. SysVinit, systemd service etc. to build RPM for CentOS 6 and Amazon Linux 2.
 
 
 ## How to use prebuilt RPM
 
 This has [Bintray RPM repository](https://bintray.com/beta/#/shogo82148/redis-rpm?tab=packages) so if you'd like to just install such a prebuilt package,
-please put the following text into `/etc/yum.repos.d/bintray-shogo82148-h2o-rpm.repo`.
+please put the following text into `/etc/yum.repos.d/bintray-shogo82148-redis-rpm.repo`.
+
+ CentOS 6:
+
+```ini
+#bintray-shogo82148-redis-rpm - packages by shogo82148 from Bintray
+[bintray-shogo82148-redis-rpm]
+name=bintray-shogo82148-redis-rpm
+baseurl=https://dl.bintray.com/shogo82148/redis-rpm/centos/$releasever/$basearch/
+gpgcheck=0
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
+```
 
 Amazon Linux 2:
 
 ```ini
-#bintray-shogo82148-h2o-rpm - packages by shogo82148 from Bintray
-[bintray-shogo82148-h2o-rpm]
-name=bintray-shogo82148-h2o-rpm
-baseurl=https://dl.bintray.com/shogo82148/h2o-rpm/amazonlinux2/$releasever/$basearch/
+#bintray-shogo82148-redis-rpm - packages by shogo82148 from Bintray
+[bintray-shogo82148-redis-rpm]
+name=bintray-shogo82148-redis-rpm
+baseurl=https://dl.bintray.com/shogo82148/redis-rpm/amazonlinux2/$releasever/$basearch/
 gpgcheck=0
 repo_gpgcheck=1
 enabled=1
@@ -27,13 +40,15 @@ gpgkey=https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
 Once the file is correctly saved, you can install packages in the repository by
 
 ```
-yum install h2o
+rpm --import https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
+yum install redis
 ```
 
 or if you use Fedora
 
 ```
-dnf install h2o
+rpm --import https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
+dnf install redis
 ```
 
 ## How to build RPM
