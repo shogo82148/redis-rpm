@@ -293,6 +293,7 @@ fi
 %endif
 
 %files devel
+# FIXME: commented out %license macro because https://github.com/shogo82148/redis-rpm/issues/2
 # %license COPYING
 %{_includedir}/%{name}module.h
 %{macrosdir}/*
@@ -303,6 +304,7 @@ fi
 
 %if 0%{?with_redistrib}
 %files trib
+# FIXME: commented out %license macro because https://github.com/shogo82148/redis-rpm/issues/2
 # %license COPYING
 %{_bindir}/%{name}-trib
 %endif
