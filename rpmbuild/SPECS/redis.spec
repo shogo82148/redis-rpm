@@ -22,9 +22,9 @@ Requires(preun):  initscripts
 %endif
 
 %if %{?_docdir:1}%{!?_docdir:0}
-%global docdir %{_docdir}
+%global redis_docdir %{_docdir}
 %else
-%global docdir %{_datadir}/doc
+%global redis_docdir %{_datadir}/doc
 %endif
 
 # %%{rpmmacrodir} not usable on EL-6
@@ -205,7 +205,7 @@ ln -s redis-server.1 %{buildroot}%{_mandir}/man1/redis-sentinel.1
 ln -s redis.conf.5   %{buildroot}%{_mandir}/man5/redis-sentinel.conf.5
 
 # Install documentation and html pages
-doc=$(echo %{buildroot}/%{docdir}/%{name})
+doc=$(echo %{buildroot}/%{redis_docdir}/%{name})
 for page in 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO; do
     install -Dpm644 $page $doc/$page
 done
@@ -286,24 +286,24 @@ fi
 %{_libexecdir}/%{name}-shutdown
 %exclude %{_includedir}
 %exclude %{macrosdir}
-%exclude %{docdir}/%{name}/*
+%exclude %{redis_docdir}/%{name}/*
 
 %if 0%{?with_redistrib}
 %exclude %{_bindir}/%{name}-trib
 %endif
 
 %files devel
-%license /COPYING
+# %license COPYING
 %{_includedir}/%{name}module.h
 %{macrosdir}/*
 
 %files doc
-%docdir %{docdir}/%{name}
-%{docdir}/%{name}
+%docdir %{redis_docdir}/%{name}
+%{redis_docdir}/%{name}
 
 %if 0%{?with_redistrib}
 %files trib
-%license /COPYING
+# %license COPYING
 %{_bindir}/%{name}-trib
 %endif
 
