@@ -40,12 +40,14 @@ gpgkey=https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
 Once the file is correctly saved, you can install packages in the repository by
 
 ```
+rpm --import https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
 yum install redis
 ```
 
 or if you use Fedora
 
 ```
+rpm --import https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
 dnf install redis
 ```
 
