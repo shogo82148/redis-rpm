@@ -7,10 +7,11 @@ language: c
 
 env:
   - TARGET_DISTRIBUTION=centos6
+  - TARGET_DISTRIBUTION=centos7
   - TARGET_DISTRIBUTION=amazonlinux2
 
 script:
-  - make "$TARGET_DISTRIBUTION"
+  - travis_wait make "$TARGET_DISTRIBUTION"
 
 before_deploy:
   - make bintray

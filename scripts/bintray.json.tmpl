@@ -18,6 +18,16 @@
 
     "files": [
         {
+            "includePattern": "centos6.build/RPMS/(.*)/(@PKG_NAME@-@PKG_VERSION@.*.rpm)",
+            "uploadPattern": "centos/6/$1/$2",
+            "matrixParams": { "override": 1 }
+        },
+        {
+            "includePattern": "centos7.build/RPMS/(.*)/(@PKG_NAME@-@PKG_VERSION@.*.rpm)",
+            "uploadPattern": "centos/7/$1/$2",
+            "matrixParams": { "override": 1 }
+        },
+        {
             "includePattern": "amazonlinux2.build/RPMS/(.*)/(@PKG_NAME@-@PKG_VERSION@.*.rpm)",
             "uploadPattern": "amazonlinux2/2/$1/$2",
             "matrixParams": { "override": 1 }
