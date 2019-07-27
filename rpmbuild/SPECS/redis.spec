@@ -34,7 +34,7 @@ Requires(preun):  initscripts
 
 Name:             redis
 Version:          5.0.5
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
@@ -305,6 +305,9 @@ fi
 %endif
 
 %changelog
+
+* Sun Jul 28 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-2
+- Fix failing to start redis-server
 
 * Sun Jul 07 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-1
 - Update to redis 5.0.5
