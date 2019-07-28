@@ -123,6 +123,12 @@ and removal, status checks, resharding, rebalancing, and other operations.
 %patch0001 -p1
 %patch0002 -p1
 
+# from https://github.com/aiven/remirepo-redis/blob/master/redis.spec
+# Configuration file changes
+sed -i -e 's|^logfile .*$|logfile /var/log/redis/redis.log|g' redis.conf
+sed -i -e 's|^logfile .*$|logfile /var/log/redis/sentinel.log|g' sentinel.conf
+sed -i -e 's|^dir .*$|dir /var/lib/redis|g' redis.conf
+
 # Module API version safety check
 api=`sed -n -e 's/#define REDISMODULE_APIVER_[0-9][0-9]* //p' src/redismodule.h`
 if test "$api" != "%{redis_modules_abi}"; then
