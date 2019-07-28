@@ -34,7 +34,7 @@ Requires(preun):  initscripts
 
 Name:             redis
 Version:          5.0.5
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
@@ -188,10 +188,6 @@ install -d %{buildroot}%{redis_modules_dir}
 # Fix non-standard-executable-perm error
 chmod 755 %{buildroot}%{_bindir}/%{name}-*
 
-# Ensure redis-server location doesn't change
-mkdir -p %{buildroot}%{_sbindir}
-mv %{buildroot}%{_bindir}/%{name}-server %{buildroot}%{_sbindir}/%{name}-server
-
 # Install rpm macros for redis modules
 mkdir -p %{buildroot}%{macrosdir}
 install -pDm644 %{SOURCE9} %{buildroot}%{macrosdir}/macros.%{name}
@@ -270,7 +266,6 @@ fi
 %dir %attr(0755, redis, root) %{_localstatedir}/run/%{name}
 %dir %attr(0750, redis, redis) %{redis_modules_dir}
 %{_bindir}/%{name}-*
-%{_sbindir}/%{name}-*
 %{_mandir}/man1/%{name}*
 %{_mandir}/man5/%{name}*
 %if %{use_systemd}
@@ -310,6 +305,9 @@ fi
 %endif
 
 %changelog
+
+* Sun Jul 28 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-2
+- Fix failing to start redis-server
 
 * Sun Jul 07 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-1
 - Update to redis 5.0.5
