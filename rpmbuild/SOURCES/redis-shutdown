@@ -34,7 +34,7 @@ fi
 
 # shutdown the service properly
 if [ -e "$SOCK" ] ; then
-	$REDIS_CLI -s "$SOCK" "$ADDITIONAL_PARAMS" shutdown
+	$REDIS_CLI -s "$SOCK" $ADDITIONAL_PARAMS shutdown
 else
-	$REDIS_CLI -h "$HOST" -p "$PORT" "$ADDITIONAL_PARAMS" shutdown
+	$REDIS_CLI -h "$HOST" -p "$PORT" $ADDITIONAL_PARAMS shutdown
 fi
