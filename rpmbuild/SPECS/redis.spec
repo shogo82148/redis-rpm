@@ -33,8 +33,8 @@ Requires(preun):  initscripts
 # end of distribution specific definitions
 
 Name:             redis
-Version:          5.0.5
-Release:          2%{?dist}
+Version:          6.0.1
+Release:          1%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
@@ -311,6 +311,9 @@ fi
 %endif
 
 %changelog
+
+* Sat May 02 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.1-1
+- Update to redis 6.0.1
 
 * Sun Jul 28 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-2
 - Fix failing to start redis-server

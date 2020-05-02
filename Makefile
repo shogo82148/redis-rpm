@@ -1,4 +1,4 @@
-SOURCE_ARCHIVE := redis-5.0.5.tar.gz
+SOURCE_ARCHIVE := redis-6.0.1.tar.gz
 TARGZ_FILE := redis.tar.gz
 IMAGE_NAME := redis-package
 amazonlinux2: IMAGE_NAME := $(IMAGE_NAME)-amazonlinux2
