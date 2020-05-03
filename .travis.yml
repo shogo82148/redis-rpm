@@ -1,4 +1,4 @@
-dist: xenial
+dist: bionic
 
 services:
   - docker
@@ -6,13 +6,11 @@ services:
 language: c
 
 env:
-  - TARGET_DISTRIBUTION=centos6
-  - TARGET_DISTRIBUTION=centos7
   - TARGET_DISTRIBUTION=centos8
   - TARGET_DISTRIBUTION=amazonlinux2
 
 script:
-  - travis_wait make "$TARGET_DISTRIBUTION"
+  - make "$TARGET_DISTRIBUTION"
 
 before_deploy:
   - make bintray

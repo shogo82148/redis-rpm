@@ -1,14 +1,12 @@
-SOURCE_ARCHIVE := redis-5.0.5.tar.gz
+SOURCE_ARCHIVE := redis-6.0.1.tar.gz
 TARGZ_FILE := redis.tar.gz
 IMAGE_NAME := redis-package
 amazonlinux2: IMAGE_NAME := $(IMAGE_NAME)-amazonlinux2
 
 .PHONY: all clean amazonlinux2 bintray
 
-all: amazonlinux2 centos6 centos7 centos8
+all: amazonlinux2 centos8
 amazonlinux2: amazonlinux2.build
-centos6: centos6.build
-centos7: centos7.build
 centos8: centos8.build
 
 rpmbuild/SOURCES/$(SOURCE_ARCHIVE):
@@ -39,6 +37,4 @@ bintray:
 clean:
 	rm -rf *.build.bak *.build bintray tmp Dockerfile
 	docker images | grep -q $(IMAGE_NAME)-amazonlinux2 && docker rmi $(IMAGE_NAME)-amazonlinux2 || true
-	docker images | grep -q $(IMAGE_NAME)-centos6 && docker rmi $(IMAGE_NAME)-centos6 || true
-	docker images | grep -q $(IMAGE_NAME)-centos7 && docker rmi $(IMAGE_NAME)-centos7 || true
 	docker images | grep -q $(IMAGE_NAME)-centos8 && docker rmi $(IMAGE_NAME)-centos8 || true
