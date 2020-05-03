@@ -1,25 +1,11 @@
 # redis spec file based on https://gist.github.com/tkuchiki/7674158
 
-# distribution specific definitions
-%define use_systemd (0%{?rhel} >= 7 || 0%{?fedora} >= 19 || 0%{?suse_version} >= 1315 || 0%{?amzn} >= 2)
-
-%if %{use_systemd}
 BuildRequires: systemd
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
-%else
-Requires(post):   chkconfig
-Requires(postun): initscripts
-Requires(preun):  chkconfig
-Requires(preun):  initscripts
-%endif
 
-%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
 %global with_redistrib 1
-%else
-%global with_redistrib 0
-%endif
 
 %if %{?_docdir:1}%{!?_docdir:0}
 %global redis_docdir %{_docdir}
@@ -42,14 +28,11 @@ License:          BSD
 URL:              https://redis.io/
 Source0:          http://download.redis.io/releases/%{name}-%{version}.tar.gz
 Source1:          %{name}.logrotate
-Source2:          %{name}.init
-Source3:          %{name}-limit-init
-Source4:          %{name}.service
-Source5:          %{name}-limit-systemd
-Source6:          %{name}-shutdown
-Source7:          %{name}-sentinel.init
-Source8:          %{name}-sentinel.service
-Source9:          macros.%{name}
+Source2:          %{name}.service
+Source3:          %{name}-limit-systemd
+Source4:          %{name}-shutdown
+Source5:          %{name}-sentinel.service
+Source6:          macros.%{name}
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # To refresh patches:
@@ -162,19 +145,13 @@ rm -fr %{buildroot}
 make install PREFIX=%{buildroot}%{_prefix}
 # Install misc other
 install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-%if %{use_systemd}
-  install -p -D -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
-  install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
-  install -p -D -m 644 %{SOURCE8} %{buildroot}%{_unitdir}/%{name}-sentinel.service
-  install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
-%else
-  install -p -D -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/%{name}
-  install -p -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/security/limits.d/95-%{name}.conf
-  install -p -D -m 755 %{SOURCE7} %{buildroot}%{_initrddir}/%{name}-sentinel
-%endif
+install -p -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
+install -p -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
+install -p -D -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}-sentinel.service
+install -p -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
 
 # Install redis-shutdown
-install -p -D -m 755 %{SOURCE6} %{buildroot}%{_libexecdir}/%{name}-shutdown
+install -p -D -m 755 %{SOURCE4} %{buildroot}%{_libexecdir}/%{name}-shutdown
 
 # Install redis module header
 install -p -D -m 644 src/%{name}module.h %{buildroot}%{_includedir}/%{name}module.h
@@ -196,7 +173,7 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-*
 
 # Install rpm macros for redis modules
 mkdir -p %{buildroot}%{macrosdir}
-install -pDm644 %{SOURCE9} %{buildroot}%{macrosdir}/macros.%{name}
+install -pDm644 %{SOURCE6} %{buildroot}%{macrosdir}/macros.%{name}
 
 # Install man pages
 man=$(dirname %{buildroot}%{_mandir})
@@ -220,15 +197,8 @@ done
 rm -fr %{buildroot}
 
 %post
-%if %{use_systemd}
-  /usr/bin/systemctl preset redis.service >/dev/null 2>&1 ||:
-  /usr/bin/systemctl preset redis-sentinel.service >/dev/null 2>&1 ||:
-%else
-  touch /var/lock/subsys/redis
-  /sbin/chkconfig --add redis
-  touch /var/lock/subsys/redis-sentinel
-  /sbin/chkconfig --add redis-sentinel
-%endif
+/usr/bin/systemctl preset redis.service >/dev/null 2>&1 ||:
+/usr/bin/systemctl preset redis-sentinel.service >/dev/null 2>&1 ||:
 
 %pre
 getent group redis &> /dev/null || groupadd -r redis &> /dev/null
@@ -239,23 +209,14 @@ exit 0
 
 %preun
 if [ $1 = 0 ]; then
-%if %{use_systemd}
   /usr/bin/systemctl --no-reload disable redis.service >/dev/null 2>&1 ||:
   /usr/bin/systemctl --no-reload disable redis-sentinel.service >/dev/null 2>&1 ||:
   /usr/bin/systemctl stop redis.service >/dev/null 2>&1 ||:
   /usr/bin/systemctl stop redis-sentinel.service >/dev/null 2>&1 ||:
-%else
-  /sbin/service redis stop &> /dev/null
-  /sbin/service redis-sentinel stop &> /dev/null
-  /sbin/chkconfig --del redis &> /dev/null
-  /sbin/chkconfig --del redis-sentinel &> /dev/null
-%endif
 fi
 
 %postun
-%if %use_systemd
 /usr/bin/systemctl daemon-reload >/dev/null 2>&1 ||:
-%endif
 if [ $1 -ge 1 ]; then
     /sbin/service %{name} condrestart >/dev/null 2>&1 || exit 0
     /sbin/service %{name}-sentinel condrestart >/dev/null 2>&1 || exit 0
@@ -274,16 +235,10 @@ fi
 %{_bindir}/%{name}-*
 %{_mandir}/man1/%{name}*
 %{_mandir}/man5/%{name}*
-%if %{use_systemd}
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}-sentinel.service
 %config(noreplace) %{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
 %config(noreplace) %{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
-%else
-%{_initrddir}/%{name}
-%{_initrddir}/%{name}-sentinel
-%config(noreplace) %{_sysconfdir}/security/limits.d/95-%{name}.conf
-%endif
 %{_libexecdir}/%{name}-shutdown
 %exclude %{_includedir}
 %exclude %{macrosdir}

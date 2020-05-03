@@ -3,7 +3,7 @@
 
 # Redis Unofficial RPM package builder
 
-This provides [Redis](https://redis.io/) RPM spec file and required files e.g. SysVinit, systemd service etc. to build RPM for CentOS 8 and Amazon Linux 2.
+This provides [Redis](https://redis.io/) RPM spec file and required files e.g. systemd service to build RPM for CentOS 8 and Amazon Linux 2.
 
 
 ## How to use prebuilt RPM
