@@ -6,8 +6,6 @@ services:
 language: c
 
 env:
-  - TARGET_DISTRIBUTION=centos6
-  - TARGET_DISTRIBUTION=centos7
   - TARGET_DISTRIBUTION=centos8
   - TARGET_DISTRIBUTION=amazonlinux2
 
