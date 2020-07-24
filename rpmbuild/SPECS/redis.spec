@@ -140,9 +140,8 @@ make %{?_smp_mflags} \
 rm tests/integration/aof.tcl
 rm tests/integration/logging.tcl
 rm tests/unit/memefficiency.tcl
-rm tests/integration/redis-cli.tcl # https://github.com/shogo82148/redis-rpm/pull/9
 mv tests/test_helper.tcl tests/test_helper.tcl.ORIG
-egrep -v 'integration/(aof|logging)|unit/memefficiency|integration/redis-cli' tests/test_helper.tcl.ORIG > tests/test_helper.tcl
+egrep -v 'integration/(aof|logging)|unit/memefficiency' tests/test_helper.tcl.ORIG > tests/test_helper.tcl
 
 make test
 make test-sentinel
