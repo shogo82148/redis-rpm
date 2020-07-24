@@ -46,7 +46,7 @@ Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.pat
 # https://github.com/antirez/redis/pull/3494 - symlink
 Patch0002:         0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.patch
 # https://github.com/redis/redis/pull/7543 - test
-Patch0003:         003-fix-deprecated-tail-syntax-in-tests.patch
+Patch0003:         0003-fix-deprecated-tail-syntax-in-tests.patch
 
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
