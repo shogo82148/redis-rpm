@@ -10,7 +10,8 @@ env:
   - TARGET_DISTRIBUTION=amazonlinux2
 
 script:
-  - make "$TARGET_DISTRIBUTION"
+  # extend the timeout to get the tests report.
+  - travis_wait 30 make "$TARGET_DISTRIBUTION"
 
 before_deploy:
   - make bintray
