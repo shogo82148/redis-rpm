@@ -48,6 +48,7 @@ Patch0002:         0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.pat
 
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
+BuildRequires:    procps
 Requires:         /bin/awk
 ExcludeArch:      ppc64
 
