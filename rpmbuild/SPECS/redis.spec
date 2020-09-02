@@ -19,7 +19,7 @@ Requires(postun): systemd
 # end of distribution specific definitions
 
 Name:             redis
-Version:          6.0.6
+Version:          6.0.7
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
@@ -65,7 +65,7 @@ Provides:          redis(modules_abi)%{?_isa} = %{redis_modules_abi}
 %define configdir %{_sysconfdir}/%{name}
 
 # http://fedoraproject.org/wiki/Packaging:Conflicts "Splitting Packages"
-Conflicts:         redis < 4.0
+Conflicts:         redis < 6.0
 
 %description
 Redis is an advanced key-value store. It is similar to memcached but the data
@@ -278,6 +278,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 02 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.7-1
+- Update to redis 6.0.7
+
 * Fri Jul 24 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.6-1
 - Update to redis 6.0.6
 
