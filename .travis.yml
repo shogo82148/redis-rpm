@@ -21,24 +21,39 @@ deploy:
     user: shogo82148
     key: '$BINTRAY_API_KEY'
     file: ./bintray/bintray-redis.json
+    cleanup: false
     skip_cleanup: true
+    on:
+      branch: main
   - provider: bintray
     user: shogo82148
     key: '$BINTRAY_API_KEY'
     file: ./bintray/bintray-redis-debuginfo.json
+    cleanup: false
     skip_cleanup: true
+    on:
+      branch: main
   - provider: bintray
     user: shogo82148
     key: '$BINTRAY_API_KEY'
     file: ./bintray/bintray-redis-devel.json
+    cleanup: false
     skip_cleanup: true
+    on:
+      branch: main
   - provider: bintray
     user: shogo82148
     key: '$BINTRAY_API_KEY'
     file: ./bintray/bintray-redis-doc.json
+    cleanup: false
     skip_cleanup: true
+    on:
+      branch: main
   - provider: bintray
     user: shogo82148
     key: '$BINTRAY_API_KEY'
     file: ./bintray/bintray-redis-trib.json
+    cleanup: false
     skip_cleanup: true
+    on:
+      branch: main
