@@ -21,7 +21,7 @@ jobs:
         run: |
           make ${{ matrix.distribution }}
       - name: upload
-        # if: github.event_name == 'push'
+        if: github.event_name == 'push'
         run: |
           ./scripts/upload.sh ${{ matrix.distribution }}
         env:
