@@ -19,7 +19,7 @@ Requires(postun): systemd
 # end of distribution specific definitions
 
 Name:             redis
-Version:          6.0.9
+Version:          6.0.10
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
@@ -129,20 +129,6 @@ make %{?_smp_mflags} \
   all
 
 %check
-
-# workaround for failing test
-# https://github.com/antirez/redis/issues/2814
-rm tests/integration/aof.tcl
-rm tests/integration/logging.tcl
-rm tests/unit/memefficiency.tcl
-
-# workaround for failing test (2)
-# https://github.com/shogo82148/redis-rpm/pull/9#issuecomment-663559399
-rm tests/integration/rdb.tcl
-rm tests/integration/psync2.tcl
-
-mv tests/test_helper.tcl tests/test_helper.tcl.ORIG
-egrep -v 'integration/(aof|logging|rdb|psync2)$|unit/memefficiency' tests/test_helper.tcl.ORIG > tests/test_helper.tcl
 
 make test
 make test-sentinel
@@ -273,6 +259,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 13 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.0.10-1
+- Update to redis 6.0.10
+
 * Tue Oct 27 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.9-1
 - Update to redis 6.0.9
 
