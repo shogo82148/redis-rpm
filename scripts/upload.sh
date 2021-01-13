@@ -46,8 +46,8 @@ if [[ "$DISTRO" = "amazonlinux2" ]]; then
     upload redis "$ROOT/amazonlinux2.build/RPMS/x86_64/redis-$VERSION-$RELEASE.amzn2.x86_64.rpm" "amazonlinux2/2/x86_64"
     upload redis-debuginfo "$ROOT/amazonlinux2.build/RPMS/x86_64/redis-debuginfo-$VERSION-$RELEASE.amzn2.x86_64.rpm" "amazonlinux2/2/x86_64"
     upload redis-devel "$ROOT/amazonlinux2.build/RPMS/x86_64/redis-devel-$VERSION-$RELEASE.amzn2.x86_64.rpm" "amazonlinux2/2/x86_64"
-    upload redis-doc "$ROOT/amazonlinux2.build/RPMS/noarch/redis-doc-$VERSION-$RELEASE.amzn2.x86_64.rpm" "amazonlinux2/2/noarch"
-    upload redis-trib "$ROOT/amazonlinux2.build/RPMS/noarch/redis-trib-$VERSION-$RELEASE.amzn2.x86_64.rpm" "amazonlinux2/2/noarch"
+    upload redis-doc "$ROOT/amazonlinux2.build/RPMS/noarch/redis-doc-$VERSION-$RELEASE.amzn2.noarch.rpm" "amazonlinux2/2/noarch"
+    upload redis-trib "$ROOT/amazonlinux2.build/RPMS/noarch/redis-trib-$VERSION-$RELEASE.amzn2.noarch.rpm" "amazonlinux2/2/noarch"
 fi
 
 if [[ "$DISTRO" = "centos7" ]]; then
