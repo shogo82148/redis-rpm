@@ -1,0 +1,28 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distribution:
+          - amazonlinux2
+          - centos8
+    steps:
+      - uses: actions/checkout@v2
+      - name: build
+        run: |
+          make ${{ matrix.distribution }}
+      - name: upload
+        if: github.event_name == 'push'
+        run: |
+          ./scripts/upload.sh ${{ matrix.distribution }}
+        env:
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
