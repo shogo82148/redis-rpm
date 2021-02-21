@@ -6,8 +6,8 @@ ROOT=$(cd "$(dirname "$0")/../" && pwd)
 
 DISTRO=$1
 : "${PLATFORM:=linux/amd64}"
-IMAGE_NAME=nginx-package-$DISTRO
-TARGZ_FILE=nginx.tar.gz
+IMAGE_NAME=redis-package-$DISTRO
+TARGZ_FILE=redis.tar.gz
 
 rm -rf "$DISTRO.build.bak"
 if [[ -d "$DISTRO.build" ]];
