@@ -1,62 +1,66 @@
-
-[![Build Status](https://travis-ci.com/shogo82148/redis-rpm.svg?branch=master)](https://travis-ci.com/shogo82148/redis-rpm)
+[![build](https://github.com/shogo82148/redis-rpm/actions/workflows/build.yml/badge.svg)](https://github.com/shogo82148/redis-rpm/actions/workflows/build.yml)
 
 # Redis Unofficial RPM package builder
 
 This provides [Redis](https://redis.io/) RPM spec file and required files e.g. systemd service to build RPM for CentOS 8 and Amazon Linux 2.
 
-
 ## How to use prebuilt RPM
-
-This has [Bintray RPM repository](https://bintray.com/beta/#/shogo82148/redis-rpm?tab=packages) so if you'd like to just install such a prebuilt package,
-please put the following text into `/etc/yum.repos.d/bintray-shogo82148-redis-rpm.repo`.
-
- CentOS 8:
-
-```ini
-#bintray-shogo82148-redis-rpm - packages by shogo82148 from Bintray
-[bintray-shogo82148-redis-rpm]
-name=bintray-shogo82148-redis-rpm
-baseurl=https://dl.bintray.com/shogo82148/redis-rpm/centos/$releasever/$basearch/
-gpgcheck=0
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
-```
-
-Amazon Linux 2:
-
-```ini
-#bintray-shogo82148-redis-rpm - packages by shogo82148 from Bintray
-[bintray-shogo82148-redis-rpm]
-name=bintray-shogo82148-redis-rpm
-baseurl=https://dl.bintray.com/shogo82148/redis-rpm/amazonlinux2/$releasever/$basearch/
-gpgcheck=0
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
-```
 
 Once the file is correctly saved, you can install packages in the repository by
 
-```
-rpm --import https://bintray.com/user/downloadSubjectPublicKey?username=shogo82148
-dnf install redis
-```
-
-## How to build RPM
-
-If you have a docker environment, you can build RPMs by just running
-
-```
-make
+```bash
+yum install h2o
 ```
 
-If you'd like to build RPM for specific distribution, please run a command like following
+### Amazon Linux 2
+
+To add unofficial redis yum repository, create a file named `/etc/yum.repos.d/shogo82148.repo`.
+
+```ini
+# shogo82148-rpm - packages by shogo82148
+[shogo82148-rpm]
+name=shogo82148-rpm
+baseurl=https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/amazonlinux/$releasever/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/RPM-GPG-KEY-shogo82148
+```
+
+Or install the RPM package for configure the repository.
 
 ```
-make amazonlinux2
+yum install -y https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/amazonlinux/2/noarch/shogo82148/shogo82148-1.0.0-1.amzn2.noarch.rpm
 ```
+
+### CentOS 7 and 8
+
+To add unofficial redis yum repository, create a file named `/etc/yum.repos.d/shogo82148.repo`.
+
+```ini
+# shogo82148-rpm - packages by shogo82148
+[shogo82148-rpm]
+name=shogo82148-rpm
+baseurl=https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/RPM-GPG-KEY-shogo82148
+```
+
+Or install the RPM package for configure the repository.
+
+```bash
+# CentOS 7
+yum install -y https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/centos/7/noarch/shogo82148/shogo82148-1.0.0-1.el7.noarch.rpm
+
+# CentOS 8
+dnf install -y https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com/centos/8/noarch/shogo82148/shogo82148-1.0.0-1.el8.noarch.rpm
+```
+
+## License
+
+This is under MIT License. Please see the
+[LICENSE](https://github.com/shogo82148/h2o-rpm/blob/master/LICENSE) file for
+details.
 
 ## License
 
