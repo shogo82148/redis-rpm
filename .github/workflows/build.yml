@@ -3,8 +3,9 @@ name: build
 on:
   pull_request:
   push:
-    branches:
-      - main
+  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -15,14 +16,19 @@ jobs:
         distribution:
           - amazonlinux2
           - centos8
+        platform:
+          - linux/amd64
+          - linux/arm64
     steps:
+      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-buildx-action@v1
       - uses: actions/checkout@v2
       - name: build
         run: |
           make ${{ matrix.distribution }}
-      - name: upload
-        if: github.event_name == 'push'
-        run: |
-          ./scripts/upload.sh ${{ matrix.distribution }}
         env:
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          PLATFORM: ${{ matrix.platform }}
+      - name: upload
+        if: github.event_name == 'release'
+        run: |
+          make upload
