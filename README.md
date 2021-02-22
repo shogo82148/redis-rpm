@@ -59,9 +59,5 @@ dnf install -y https://shogo82148-rpm-repository.s3-ap-northeast-1.amazonaws.com
 ## License
 
 This is under MIT License. Please see the
-[LICENSE](https://github.com/shogo82148/h2o-rpm/blob/master/LICENSE) file for
+[LICENSE](https://github.com/shogo82148/redis-rpm/blob/master/LICENSE) file for
 details.
-
-## License
-
-This is under MIT License. Please see the LICENSE file for details.
