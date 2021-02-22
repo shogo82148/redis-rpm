@@ -9,7 +9,7 @@ This provides [Redis](https://redis.io/) RPM spec file and required files e.g. s
 Once the file is correctly saved, you can install packages in the repository by
 
 ```bash
-yum install h2o
+yum install redis
 ```
 
 ### Amazon Linux 2
