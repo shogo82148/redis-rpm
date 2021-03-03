@@ -47,7 +47,9 @@ Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.pat
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
 BuildRequires:    procps
+BuildRequires:    openssl-devel
 Requires:         /bin/awk
+Requires:         openssl
 ExcludeArch:      ppc64
 
 Requires:         logrotate
@@ -121,6 +123,7 @@ fi
 %build
 make %{?_smp_mflags} \
   DEBUG='' \
+  BUILD_TLS=yes \
   CFLAGS='%{optflags}' \
   V=1 \
   all
