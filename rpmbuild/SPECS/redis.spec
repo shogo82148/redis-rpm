@@ -48,7 +48,9 @@ BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
 BuildRequires:    procps
 BuildRequires:    libatomic
+BuildRequires:    openssl-devel
 Requires:         /bin/awk
+Requires:         openssl
 ExcludeArch:      ppc64
 
 Requires:         logrotate
@@ -120,11 +122,8 @@ if test "$api" != "%{redis_modules_abi}"; then
 fi
 
 %build
-make %{?_smp_mflags} \
-  DEBUG='' \
-  CFLAGS='%{optflags}' \
-  V=1 \
-  all
+export BUILD_TLS=yes
+make %{?_smp_mflags} all
 
 %check
 
@@ -257,6 +256,9 @@ fi
 %endif
 
 %changelog
+* Wed Mar 03 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-1
+- Update to redis 6.2.1
+
 * Wed Jan 13 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.0.10-1
 - Update to redis 6.0.10
 

@@ -1,7 +1,7 @@
 FROM centos:7
 ENV HOME /
 RUN yum update -y
-RUN yum install -y rpm-build redhat-rpm-config rpmdevtools gcc-c++ tar make tcl which procps libatomic
+RUN yum install -y rpm-build redhat-rpm-config rpmdevtools gcc-c++ tar make tcl which procps libatomic openssl-devel
 RUN rpmdev-setuptree
 ADD ./rpmbuild/ /rpmbuild/
 RUN chown -R root:root /rpmbuild
