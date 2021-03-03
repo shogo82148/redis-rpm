@@ -256,6 +256,9 @@ fi
 %endif
 
 %changelog
+* Wed Mar 03 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-1
+- Update to redis 6.2.1
+
 * Wed Jan 13 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.0.10-1
 - Update to redis 6.0.10
 
