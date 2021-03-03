@@ -1,7 +1,7 @@
 FROM centos:8
 ENV HOME /
 RUN dnf update -y
-RUN dnf install -y rpm-build redhat-rpm-config rpmdevtools gcc-c++ tar make tcl which
+RUN dnf install -y rpm-build redhat-rpm-config rpmdevtools gcc-c++ tar make tcl which libatomic
 RUN rpmdev-setuptree
 ADD ./rpmbuild/ /rpmbuild/
 RUN chown -R root:root /rpmbuild
