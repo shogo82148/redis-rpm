@@ -47,7 +47,7 @@ Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.pat
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
 BuildRequires:    procps
-BuildRequires:    libatomic
+BuildRequires:    libatomic-devel
 BuildRequires:    openssl-devel
 Requires:         /bin/awk
 Requires:         openssl
