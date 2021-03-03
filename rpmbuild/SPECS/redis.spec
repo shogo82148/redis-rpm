@@ -121,9 +121,9 @@ if test "$api" != "%{redis_modules_abi}"; then
 fi
 
 %build
+export BUILD_TLS=yes
 make %{?_smp_mflags} \
   DEBUG='' \
-  BUILD_TLS=yes \
   CFLAGS='%{optflags}' \
   V=1 \
   all
