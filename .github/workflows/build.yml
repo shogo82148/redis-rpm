@@ -15,6 +15,7 @@ jobs:
       matrix:
         distribution:
           - amazonlinux2
+          - centos7
           - centos8
         platform:
           - linux/amd64
