@@ -122,11 +122,7 @@ fi
 
 %build
 export BUILD_TLS=yes
-make %{?_smp_mflags} \
-  DEBUG='' \
-  CFLAGS='%{optflags}' \
-  V=1 \
-  all
+make %{?_smp_mflags} all
 
 %check
 
