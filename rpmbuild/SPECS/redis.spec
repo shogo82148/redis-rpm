@@ -43,8 +43,6 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # Update configuration for Fedora
 # https://github.com/antirez/redis/pull/3491 - man pages
 Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch
-# https://github.com/antirez/redis/pull/3494 - symlink
-Patch0002:         0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.patch
 
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
@@ -105,7 +103,6 @@ and removal, status checks, resharding, rebalancing, and other operations.
 %prep
 %setup -q
 %patch0001 -p1
-%patch0002 -p1
 
 # from https://github.com/aiven/remirepo-redis/blob/master/redis.spec
 # Configuration file changes
