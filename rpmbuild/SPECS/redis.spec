@@ -19,7 +19,7 @@ Requires(postun): systemd
 # end of distribution specific definitions
 
 Name:             redis
-Version:          6.0.10
+Version:          6.2.1
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
@@ -43,8 +43,6 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # Update configuration for Fedora
 # https://github.com/antirez/redis/pull/3491 - man pages
 Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch
-# https://github.com/antirez/redis/pull/3494 - symlink
-Patch0002:         0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.patch
 
 BuildRequires:    tcl >= 8.5
 BuildRequires:    gcc
@@ -62,7 +60,7 @@ Provides:          redis(modules_abi)%{?_isa} = %{redis_modules_abi}
 %define configdir %{_sysconfdir}/%{name}
 
 # http://fedoraproject.org/wiki/Packaging:Conflicts "Splitting Packages"
-Conflicts:         redis < 6.0
+Conflicts:         redis < 6.2
 
 %description
 Redis is an advanced key-value store. It is similar to memcached but the data
@@ -105,7 +103,6 @@ and removal, status checks, resharding, rebalancing, and other operations.
 %prep
 %setup -q
 %patch0001 -p1
-%patch0002 -p1
 
 # from https://github.com/aiven/remirepo-redis/blob/master/redis.spec
 # Configuration file changes

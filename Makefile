@@ -1,4 +1,4 @@
-SOURCE_ARCHIVE := redis-6.0.10.tar.gz
+SOURCE_ARCHIVE := redis-6.2.1.tar.gz
 TARGZ_FILE := redis.tar.gz
 IMAGE_NAME := redis-package
 
@@ -13,7 +13,6 @@ rpmbuild/SOURCES/$(SOURCE_ARCHIVE):
 
 %.build: Dockerfile.% rpmbuild/SPECS/redis.spec rpmbuild/SOURCES/$(SOURCE_ARCHIVE) \
 		rpmbuild/SOURCES/0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch \
-		rpmbuild/SOURCES/0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.patch \
 		rpmbuild/SOURCES/macros.redis rpmbuild/SOURCES/redis-limit-systemd \
 		rpmbuild/SOURCES/redis-sentinel.service rpmbuild/SOURCES/redis-shutdown \
 		rpmbuild/SOURCES/redis.logrotate rpmbuild/SOURCES/redis.service
