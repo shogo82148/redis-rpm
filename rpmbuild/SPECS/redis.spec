@@ -20,7 +20,7 @@ Requires(postun): systemd
 
 Name:             redis
 Version:          6.2.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
@@ -255,6 +255,9 @@ fi
 %endif
 
 %changelog
+* Thu Mar 04 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-2
+- enable TLS features
+
 * Wed Mar 03 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-1
 - Update to redis 6.2.1
 
