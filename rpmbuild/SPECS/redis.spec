@@ -19,8 +19,8 @@ Requires(postun): systemd
 # end of distribution specific definitions
 
 Name:             redis
-Version:          6.2.1
-Release:          2%{?dist}
+Version:          6.2.2
+Release:          1%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
@@ -255,6 +255,9 @@ fi
 %endif
 
 %changelog
+* Tue Apr 27 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.2-1
+- Update to redis 6.2.2
+
 * Thu Mar 04 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-2
 - enable TLS features
 
