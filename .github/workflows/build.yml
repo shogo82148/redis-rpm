@@ -37,6 +37,5 @@ jobs:
           role-to-assume: arn:aws:iam::445285296882:role/rpm-repository-users-RedisRole-1XPLYZ0MTT1E9
           role-session-tagging: true
       - name: upload
-        if: github.event_name == 'release'
         run: |
           make upload
