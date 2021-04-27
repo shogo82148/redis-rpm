@@ -2,12 +2,13 @@ SOURCE_ARCHIVE := redis-6.2.2.tar.gz
 TARGZ_FILE := redis.tar.gz
 IMAGE_NAME := redis-package
 
-.PHONY: all clean amazonlinux2 centos7 centos8
+.PHONY: all clean amazonlinux2 centos7 centos8 almalinux8
 
-all: amazonlinux2 centos7 centos8
+all: amazonlinux2 centos7 centos8 almalinux8
 amazonlinux2: amazonlinux2.build
 centos7: centos7.build
 centos8: centos8.build
+almalinux8: almalinux8.build
 
 rpmbuild/SOURCES/$(SOURCE_ARCHIVE):
 	curl -SL http://download.redis.io/releases/$(SOURCE_ARCHIVE) -o rpmbuild/SOURCES/$(SOURCE_ARCHIVE)
@@ -28,3 +29,4 @@ clean:
 	docker images | grep -q $(IMAGE_NAME)-amazonlinux2 && docker rmi $(IMAGE_NAME)-amazonlinux2 || true
 	docker images | grep -q $(IMAGE_NAME)-centos7 && docker rmi $(IMAGE_NAME)-centos7 || true
 	docker images | grep -q $(IMAGE_NAME)-centos8 && docker rmi $(IMAGE_NAME)-centos8 || true
+	docker images | grep -q $(IMAGE_NAME)-almalinux8 && docker rmi $(IMAGE_NAME)-almalinux8 || true
