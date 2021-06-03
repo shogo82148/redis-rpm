@@ -19,7 +19,7 @@ Requires(postun): systemd
 # end of distribution specific definitions
 
 Name:             redis
-Version:          6.2.3
+Version:          6.2.4
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
@@ -255,6 +255,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 03 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.4-1
+- Update to redis 6.2.4
+
 * Wed May 05 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.3-1
 - Update to redis 6.2.3
 
