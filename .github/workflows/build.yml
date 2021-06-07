@@ -18,6 +18,7 @@ jobs:
           - centos7
           - centos8
           - almalinux8
+          - rockylinux8
         platform:
           - linux/amd64
           # - linux/arm64
