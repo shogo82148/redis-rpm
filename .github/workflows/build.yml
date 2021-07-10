@@ -17,6 +17,8 @@ jobs:
           - amazonlinux2
           - centos7
           - centos8
+          - almalinux8
+          - rockylinux8
         platform:
           - linux/amd64
           - linux/arm64
@@ -31,12 +33,11 @@ jobs:
           PLATFORM: ${{ matrix.platform }}
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: shogo82148/actions-aws-assume-role@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
+          role-to-assume: arn:aws:iam::445285296882:role/rpm-repository-users-RedisRole-1XPLYZ0MTT1E9
+          role-session-tagging: true
       - name: upload
-        if: github.event_name == 'release'
         run: |
           make upload

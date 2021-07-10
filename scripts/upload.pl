@@ -6,6 +6,12 @@ use warnings;
 use FindBin;
 use File::Basename;
 
+our @options = ('--dryrun');
+
+if (($ENV{GITHUB_EVENT_NAME} || '') eq 'release') {
+    @options = ();
+}
+
 sub execute {
     my @arg = @_;
     my $cmd = join " ", @arg;
@@ -27,20 +33,22 @@ sub upload {
     my ($variant, $prefix) = @_;
     while (my $rpm = <$FindBin::Bin/../$variant.build/RPMS/x86_64/*.x86_64.rpm>) {
         my $package = package_name($rpm);
-        execute("aws", "s3", "cp", $rpm, "s3://shogo82148-rpm-temporary/$prefix/x86_64/$package/");
+        execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/x86_64/$package/");
     }
     while (my $rpm = <$FindBin::Bin/../$variant.build/RPMS/aarch64/*.aarch64.rpm>) {
         my $package = package_name($rpm);
-        execute("aws", "s3", "cp", $rpm, "s3://shogo82148-rpm-temporary/$prefix/aarch64/$package/");
+        execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/aarch64/$package/");
     }
     while (my $rpm = <$FindBin::Bin/../$variant.build/RPMS/noarch/*.noarch.rpm>) {
         my $package = package_name($rpm);
-        execute("aws", "s3", "cp", $rpm, "s3://shogo82148-rpm-temporary/$prefix/noarch/$package/");
-        execute("aws", "s3", "cp", $rpm, "s3://shogo82148-rpm-temporary/$prefix/x86_64/$package/");
-        execute("aws", "s3", "cp", $rpm, "s3://shogo82148-rpm-temporary/$prefix/aarch64/$package/");
+        execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/noarch/$package/");
+        execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/x86_64/$package/");
+        execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/aarch64/$package/");
     }
 }
 
 upload "amazonlinux2", "amazonlinux/2";
 upload "centos7", "centos/7";
 upload "centos8", "centos/8";
+upload "almalinux8", "almalinux/8";
+upload "rockylinux8", "rockylinux/8";
