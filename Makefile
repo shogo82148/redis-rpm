@@ -1,4 +1,4 @@
-SOURCE_ARCHIVE := redis-6.2.4.tar.gz
+SOURCE_ARCHIVE := redis-6.2.5.tar.gz
 TARGZ_FILE := redis.tar.gz
 IMAGE_NAME := redis-package
 
