@@ -19,7 +19,7 @@ Requires(postun): systemd
 # end of distribution specific definitions
 
 Name:             redis
-Version:          6.2.6
+Version:          6.2.7
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
@@ -255,52 +255,55 @@ fi
 %endif
 
 %changelog
-* Sat May 21 2022 Ichinose Shogo <shogo82148@gmail.com> - 6.2.6-1
+* Sat May 21 2022 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.7-1
+- Update to redis 6.2.7
+
+* Sat May 21 2022 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.6-1
 - Update to redis 6.2.6
 
-* Sun Jul 25 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.5-1
+* Sun Jul 25 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.5-1
 - Update to redis 6.2.5
 
-* Thu Jun 03 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.4-1
+* Thu Jun 03 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.4-1
 - Update to redis 6.2.4
 
-* Wed May 05 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.3-1
+* Wed May 05 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.3-1
 - Update to redis 6.2.3
 
-* Tue Apr 27 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.2-1
+* Tue Apr 27 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.2-1
 - Update to redis 6.2.2
 
-* Thu Mar 04 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-2
+* Thu Mar 04 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.1-2
 - enable TLS features
 
-* Wed Mar 03 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.2.1-1
+* Wed Mar 03 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.2.1-1
 - Update to redis 6.2.1
 
-* Wed Jan 13 2021 Ichinose Shogo <shogo82148@gmail.com> - 6.0.10-1
+* Wed Jan 13 2021 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.10-1
 - Update to redis 6.0.10
 
-* Tue Oct 27 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.9-1
+* Tue Oct 27 2020 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.9-1
 - Update to redis 6.0.9
 
-* Thu Sep 10 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.8-1
+* Thu Sep 10 2020 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.8-1
 - Update to redis 6.0.8
 
-* Wed Sep 02 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.7-1
+* Wed Sep 02 2020 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.7-1
 - Update to redis 6.0.7
 
-* Fri Jul 24 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.6-1
+* Fri Jul 24 2020 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.6-1
 - Update to redis 6.0.6
 
-* Mon Jul 13 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.5-1
+* Mon Jul 13 2020 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.5-1
 - Update to redis 6.0.5
 
-* Sat May 02 2020 Ichinose Shogo <shogo82148@gmail.com> - 6.0.1-1
+* Sat May 02 2020 ICHINOSE Shogo <shogo82148@gmail.com> - 6.0.1-1
 - Update to redis 6.0.1
 
-* Sun Jul 28 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-2
+* Sun Jul 28 2019 ICHINOSE Shogo <shogo82148@gmail.com> - 5.0.5-2
 - Fix failing to start redis-server
 
-* Sun Jul 07 2019 Ichinose Shogo <shogo82148@gmail.com> - 5.0.5-1
+* Sun Jul 07 2019 ICHINOSE Shogo <shogo82148@gmail.com> - 5.0.5-1
 - Update to redis 5.0.5
 
 * Sat Mar 31 2012 Silas Sewell <silas@sewell.org> - 2.4.10-1
