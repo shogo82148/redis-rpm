@@ -26,7 +26,7 @@ Summary:          A persistent key-value database
 Group:            Applications/Databases
 License:          BSD
 URL:              https://redis.io/
-Source0:          http://download.redis.io/releases/%{name}-%{version}.tar.gz
+Source0:          https://download.redis.io/releases/%{name}-%{version}.tar.gz
 Source1:          %{name}.logrotate
 Source2:          %{name}.service
 Source3:          %{name}-limit-systemd

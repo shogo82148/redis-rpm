@@ -11,7 +11,7 @@ almalinux8: almalinux8.build
 rockylinux8: rockylinux8.build
 
 rpmbuild/SOURCES/$(SOURCE_ARCHIVE):
-	curl -SL http://download.redis.io/releases/$(SOURCE_ARCHIVE) -o rpmbuild/SOURCES/$(SOURCE_ARCHIVE)
+	curl -SL https://download.redis.io/releases/$(SOURCE_ARCHIVE) -o rpmbuild/SOURCES/$(SOURCE_ARCHIVE)
 
 %.build: Dockerfile.% rpmbuild/SPECS/redis.spec rpmbuild/SOURCES/$(SOURCE_ARCHIVE) \
 		rpmbuild/SOURCES/0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch \
