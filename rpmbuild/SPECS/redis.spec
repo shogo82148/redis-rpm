@@ -20,7 +20,7 @@ Requires(postun): systemd
 
 Name:             redis
 Version:          7.0.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A persistent key-value database
 
 Group:            Applications/Databases
@@ -255,6 +255,9 @@ fi
 %endif
 
 %changelog
+* Fri Nov 25 2022 ICHINOSE Shogo <shogo82148@gmail.com> - 7.0.0-2
+- Add AlmaLinux9, Rocky Linux9 and Amazon Linux 2022
+
 * Sat May 21 2022 ICHINOSE Shogo <shogo82148@gmail.com> - 7.0.0-1
 - Update to redis 7.0.0
 
