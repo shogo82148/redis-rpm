@@ -1,0 +1,10 @@
+FROM amazonlinux:2022
+ENV HOME /
+RUN dnf update -y
+RUN dnf install -y rpm-build redhat-rpm-config rpmdevtools gcc-c++ tar make tcl which procps openssl-devel
+RUN rpmdev-setuptree
+ADD ./rpmbuild/ /rpmbuild/
+RUN chown -R root:root /rpmbuild
+RUN rpmbuild -ba /rpmbuild/SPECS/redis.spec
+RUN tar -czf /tmp/redis.tar.gz -C /rpmbuild RPMS SRPMS
+CMD ["/bin/true"]
