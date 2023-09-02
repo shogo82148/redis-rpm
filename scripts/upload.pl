@@ -43,7 +43,7 @@ sub upload {
         my $package = package_name($rpm);
         execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/noarch/$package/");
         execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/x86_64/$package/");
-        # execute("aws", "s3", "cp", $rpm, "s3://shogo82148-rpm-temporary/$prefix/aarch64/$package/");
+        execute("aws", "s3", "cp", @options, $rpm, "s3://shogo82148-rpm-temporary/$prefix/aarch64/$package/");
     }
 }
 
