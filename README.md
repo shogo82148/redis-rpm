@@ -1,3 +1,10 @@
+# NO LONGER MAINTAINED
+
+This repository is no longer maintained.
+I recommend migrating to [Valkey](https://valkey.io/). It is officially supported by various Linux distributions.
+
+-----
+
 [![build](https://github.com/shogo82148/redis-rpm/actions/workflows/build.yml/badge.svg)](https://github.com/shogo82148/redis-rpm/actions/workflows/build.yml)
 
 # Redis Unofficial RPM package builder
